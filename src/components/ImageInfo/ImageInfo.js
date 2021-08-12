@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import apiImages from '../../services/image-api';
 import ImageErrorView from '../ImageErrorView';
+import ImageGallery from '../ImageGallery';
 
 const Status = {
   IDLE: 'idle',
@@ -24,7 +25,6 @@ class ImageInfo extends Component {
       apiImages
         .fetchImage(nextName)
         .then(comeImages => {
-          // console.log(comeImages);
           if (comeImages.total !== 0) {
             this.setState({
               images: comeImages.hits,
@@ -50,10 +50,17 @@ class ImageInfo extends Component {
     const { images, error, status } = this.state;
     const { imageName } = this.props;
 
+    if (status === 'idle') {
+      return <div>Введите название изображения.</div>;
+    }
+
+    if (status === 'resolved') {
+      return <ImageGallery images={images} />;
+    }
+
     if (status === 'rejected') {
       return <ImageErrorView message={error.message} />;
     }
-    return <div></div>;
   }
 }
 
