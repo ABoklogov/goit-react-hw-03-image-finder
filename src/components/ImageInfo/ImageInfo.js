@@ -1,7 +1,7 @@
 import { Component } from 'react';
+import apiImages from '../../services/image-api';
+import ImageErrorView from '../ImageErrorView';
 
-const API_KEY = '22144472-c4d53a495baf7d3490978ff95';
-const BASE_URL = 'https://pixabay.com/api/';
 const Status = {
   IDLE: 'idle',
   PENDING: 'pending',
@@ -21,15 +21,38 @@ class ImageInfo extends Component {
     const nextName = this.props.imageName;
 
     if (prevName !== nextName) {
-      fetch(
-        `${BASE_URL}?q=${nextName}&page=${1}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`,
-      )
-        .then(response => response.json())
-        .then(images => console.log(images));
+      apiImages
+        .fetchImage(nextName)
+        .then(comeImages => {
+          // console.log(comeImages);
+          if (comeImages.total !== 0) {
+            this.setState({
+              images: comeImages.hits,
+              status: Status.RESOLVED,
+            });
+            return;
+          }
+
+          return Promise.reject(
+            new Error(`Нет такого изображения: ${nextName}`),
+          );
+        })
+        .catch(error =>
+          this.setState({
+            error,
+            status: Status.REJECTED,
+          }),
+        );
     }
   }
 
   render() {
+    const { images, error, status } = this.state;
+    const { imageName } = this.props;
+
+    if (status === 'rejected') {
+      return <ImageErrorView message={error.message} />;
+    }
     return <div></div>;
   }
 }
