@@ -1,7 +1,9 @@
 import { Component } from 'react';
 import apiImages from '../../services/image-api';
+import s from './ImageInfo.module.css';
 import ImageErrorView from '../ImageErrorView';
 import ImageGallery from '../ImageGallery';
+import Button from '../Button';
 
 const Status = {
   IDLE: 'idle',
@@ -48,14 +50,19 @@ class ImageInfo extends Component {
 
   render() {
     const { images, error, status } = this.state;
-    const { imageName } = this.props;
+    // const { imageName } = this.props;
 
     if (status === 'idle') {
-      return <div>Введите название изображения.</div>;
+      return <div className={s.message}>please enter image title</div>;
     }
 
     if (status === 'resolved') {
-      return <ImageGallery images={images} />;
+      return (
+        <>
+          <ImageGallery images={images} />
+          <Button />
+        </>
+      );
     }
 
     if (status === 'rejected') {

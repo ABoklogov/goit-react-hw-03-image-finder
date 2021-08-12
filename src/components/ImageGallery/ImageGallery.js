@@ -1,13 +1,15 @@
+import s from './ImageGallery.module.css';
 import ImageGalleryItem from './ImageGalleryItem';
 
 export default function ImageGallery({ images }) {
-  console.log(images);
   return (
-    <ul className="ImageGallery">
+    <ul className={s.ImageGallery}>
       {images.map(el => (
-        <li key={el.id} className="ImageGalleryItem">
-          <ImageGalleryItem smallImage={el.webformatURL} alt={el.tags} />
-        </li>
+        <ImageGalleryItem
+          key={el.id}
+          smallImage={el.webformatURL}
+          alt={el.tags}
+        />
       ))}
     </ul>
   );
