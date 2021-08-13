@@ -15,7 +15,8 @@ const Status = {
 
 class ImageInfo extends Component {
   state = {
-    images: null,
+    images: [],
+    page: 1,
     error: null,
     status: Status.IDLE,
   };
@@ -23,17 +24,28 @@ class ImageInfo extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
 
-    if (prevName !== nextName) {
+    if (prevName !== nextName || prevPage !== nextPage) {
       this.setState({ status: Status.PENDING });
 
+      if (prevName !== nextName) {
+        this.setState({ images: [], page: 1 });
+      }
+
       apiImages
-        .fetchImage(nextName)
+        .fetchImage(nextName, this.state.page)
         .then(comeImages => {
           if (comeImages.total !== 0) {
-            this.setState({
-              images: comeImages.hits,
+            this.setState(({ images }) => ({
+              images: [...images, ...comeImages.hits],
               status: Status.RESOLVED,
+            }));
+
+            window.scrollTo({
+              top: document.documentElement.scrollHeight,
+              behavior: 'smooth',
             });
             return;
           }
@@ -51,9 +63,14 @@ class ImageInfo extends Component {
     }
   }
 
+  loadMoreImages = () => {
+    this.setState(({ page }) => ({
+      page: page + 1,
+    }));
+  };
+
   render() {
     const { images, error, status } = this.state;
-    // const { imageName } = this.props;
 
     if (status === 'idle') {
       return <div className={s.message}>please enter image title</div>;
@@ -61,13 +78,16 @@ class ImageInfo extends Component {
 
     if (status === 'pending') {
       return (
-        <Loader
-          className={s.Loader}
-          type="ThreeDots"
-          color="#00BFFF"
-          height={100}
-          width={100}
-        />
+        <>
+          {images && <ImageGallery images={images} />}
+          <Loader
+            className={s.Loader}
+            type="ThreeDots"
+            color="#00BFFF"
+            height={100}
+            width={100}
+          />
+        </>
       );
     }
 
@@ -75,7 +95,7 @@ class ImageInfo extends Component {
       return (
         <>
           <ImageGallery images={images} />
-          <Button />
+          <Button loadMoreImages={this.loadMoreImages} />
         </>
       );
     }
