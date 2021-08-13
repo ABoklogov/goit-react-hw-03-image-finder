@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import s from './App.module.css';
 import Searchbar from '../Searchbar';
 import ImageInfo from '../ImageInfo';
-import s from './App.module.css';
 
 class App extends Component {
   state = {
@@ -13,10 +13,12 @@ class App extends Component {
   };
 
   render() {
+    const { imageName } = this.state;
+
     return (
       <div className={s.App}>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageInfo imageName={this.state.imageName} />
+        <ImageInfo imageName={imageName} />
       </div>
     );
   }

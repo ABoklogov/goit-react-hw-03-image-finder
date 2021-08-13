@@ -4,6 +4,9 @@ import s from './ImageInfo.module.css';
 import ImageErrorView from '../ImageErrorView';
 import ImageGallery from '../ImageGallery';
 import Button from '../Button';
+// import Loader from '../Loader';
+import Loader from 'react-loader-spinner';
+import Modal from '../Modal';
 
 const Status = {
   IDLE: 'idle',
@@ -17,6 +20,7 @@ class ImageInfo extends Component {
     images: null,
     error: null,
     status: Status.IDLE,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,6 +28,8 @@ class ImageInfo extends Component {
     const nextName = this.props.imageName;
 
     if (prevName !== nextName) {
+      this.setState({ status: Status.PENDING });
+
       apiImages
         .fetchImage(nextName)
         .then(comeImages => {
@@ -48,12 +54,28 @@ class ImageInfo extends Component {
     }
   }
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({ showModal: !showModal }));
+  };
+
   render() {
-    const { images, error, status } = this.state;
+    const { images, error, status, showModal } = this.state;
     // const { imageName } = this.props;
 
     if (status === 'idle') {
       return <div className={s.message}>please enter image title</div>;
+    }
+
+    if (status === 'pending') {
+      return (
+        <Loader
+          className={s.Loader}
+          type="ThreeDots"
+          color="#00BFFF"
+          height={100}
+          width={100}
+        />
+      );
     }
 
     if (status === 'resolved') {
@@ -61,6 +83,7 @@ class ImageInfo extends Component {
         <>
           <ImageGallery images={images} />
           <Button />
+          {showModal && <Modal onClose={this.toggleModal} />}
         </>
       );
     }
