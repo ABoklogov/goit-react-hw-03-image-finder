@@ -1,10 +1,17 @@
 import s from './ImageGalleryItem.module.css';
+import PropTypes from 'prop-types';
 import Modal from '../../Modal';
 import { Component } from 'react';
 
 class ImageGalleryItem extends Component {
   state = {
     showModal: false,
+  };
+
+  static propTypes = {
+    smallImage: PropTypes.string,
+    bigImage: PropTypes.string,
+    alt: PropTypes.string,
   };
 
   toggleModal = () => {

@@ -1,5 +1,6 @@
 import errorImage from '../../images/error-image.jpg';
 import s from './ImageErrorView.module.css';
+import PropTypes from 'prop-types';
 
 export default function ImageErrorView({ message }) {
   return (
@@ -9,3 +10,7 @@ export default function ImageErrorView({ message }) {
     </div>
   );
 }
+
+ImageErrorView.propTypes = {
+  message: PropTypes.string,
+};

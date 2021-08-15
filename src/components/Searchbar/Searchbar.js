@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import SearchForm from './SearchForm';
 import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
+import PropTypes from 'prop-types';
 
 class Searchbar extends Component {
   state = {
     imageName: '',
+  };
+
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
   };
 
   handleNameChange = e => {

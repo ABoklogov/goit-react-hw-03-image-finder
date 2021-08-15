@@ -1,5 +1,6 @@
 import s from './ImageGallery.module.css';
 import ImageGalleryItem from './ImageGalleryItem';
+import PropTypes from 'prop-types';
 
 export default function ImageGallery({ images }) {
   return (
@@ -15,3 +16,7 @@ export default function ImageGallery({ images }) {
     </ul>
   );
 }
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.shape),
+};

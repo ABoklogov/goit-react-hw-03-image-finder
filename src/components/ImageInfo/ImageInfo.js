@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import apiImages from '../../services/image-api';
 import s from './ImageInfo.module.css';
+import PropTypes from 'prop-types';
 import ImageErrorView from '../ImageErrorView';
 import ImageGallery from '../ImageGallery';
 import Button from '../Button';
@@ -19,6 +20,10 @@ class ImageInfo extends Component {
     page: 1,
     error: null,
     status: Status.IDLE,
+  };
+
+  static propTypes = {
+    imageName: PropTypes.string.isRequired,
   };
 
   componentDidUpdate(prevProps, prevState) {

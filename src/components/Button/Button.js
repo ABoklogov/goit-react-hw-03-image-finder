@@ -1,4 +1,5 @@
 import s from './Button.module.css';
+import PropTypes from 'prop-types';
 
 export default function Button({ loadMoreImages }) {
   return (
@@ -7,3 +8,7 @@ export default function Button({ loadMoreImages }) {
     </button>
   );
 }
+
+Button.propTypes = {
+  loadMoreImages: PropTypes.func,
+};
