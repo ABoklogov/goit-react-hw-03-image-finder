@@ -29,53 +29,51 @@ class ImageInfo extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
-    const prevPage = prevState.page;
-    const nextPage = this.state.page;
 
-    if (prevName !== nextName || prevPage !== nextPage) {
-      this.setState({ status: Status.PENDING });
+    if (prevName !== nextName) {
+      this.setState({
+        page: 1,
+        images: [],
+        status: Status.PENDING,
+      });
 
-      if (prevName !== nextName) {
-        this.setState({ images: [], page: 1 });
-      }
+      const defaultPage = 1;
 
-      apiImages
-        .fetchImage(nextName, this.state.page)
-        .then(comeImages => {
-          if (comeImages.total !== 0) {
-            this.setState(({ images }) => ({
-              images: [...images, ...comeImages.hits],
-              status: Status.RESOLVED,
-            }));
-
-            window.scrollTo({
-              top: document.documentElement.scrollHeight,
-              behavior: 'smooth',
-            });
-            return;
-          }
-
-          return Promise.reject(
-            new Error(`Нет такого изображения: ${nextName}`),
-          );
-        })
-        .catch(error =>
-          this.setState({
-            error,
-            status: Status.REJECTED,
-          }),
-        );
+      this.loaderImages(nextName, defaultPage);
     }
   }
 
-  loadMoreImages = () => {
-    this.setState(({ page }) => ({
-      page: page + 1,
-    }));
+  loaderImages = (name, page) => {
+    apiImages
+      .fetchImage(name, page)
+      .then(comeImages => {
+        if (comeImages.total !== 0) {
+          this.setState(({ images, page }) => ({
+            images: [...images, ...comeImages.hits],
+            page: page + 1,
+            status: Status.RESOLVED,
+          }));
+
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
+          return;
+        }
+
+        return Promise.reject(new Error(`Нет такого изображения: ${name}`));
+      })
+      .catch(error =>
+        this.setState({
+          error,
+          status: Status.REJECTED,
+        }),
+      );
   };
 
   render() {
-    const { images, error, status } = this.state;
+    const { images, error, status, page } = this.state;
+    const { imageName } = this.props;
 
     if (status === 'idle') {
       return <div className={s.message}>please enter image title</div>;
@@ -101,7 +99,7 @@ class ImageInfo extends Component {
         <>
           <ImageGallery images={images} />
           {images.length >= 12 && (
-            <Button loadMoreImages={this.loadMoreImages} />
+            <Button loadMoreImages={() => this.loaderImages(imageName, page)} />
           )}
         </>
       );
