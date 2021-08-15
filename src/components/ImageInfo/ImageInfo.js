@@ -32,7 +32,6 @@ class ImageInfo extends Component {
 
       if (prevName !== nextName) {
         this.setState({ images: [], page: 1 });
-        return;
       }
 
       apiImages
