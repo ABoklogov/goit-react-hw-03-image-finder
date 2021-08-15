@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import s from './App.module.css';
 import Searchbar from '../Searchbar';
 import ImageInfo from '../ImageInfo';
@@ -19,6 +21,7 @@ class App extends Component {
       <div className={s.App}>
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageInfo imageName={imageName} />
+        <ToastContainer />
       </div>
     );
   }

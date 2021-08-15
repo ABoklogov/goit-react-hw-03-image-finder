@@ -32,6 +32,7 @@ class ImageInfo extends Component {
 
       if (prevName !== nextName) {
         this.setState({ images: [], page: 1 });
+        return;
       }
 
       apiImages
@@ -95,7 +96,9 @@ class ImageInfo extends Component {
       return (
         <>
           <ImageGallery images={images} />
-          <Button loadMoreImages={this.loadMoreImages} />
+          {images.length >= 12 && (
+            <Button loadMoreImages={this.loadMoreImages} />
+          )}
         </>
       );
     }
