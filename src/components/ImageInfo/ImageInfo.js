@@ -37,13 +37,11 @@ class ImageInfo extends Component {
         status: Status.PENDING,
       });
 
-      const startPage = 1;
-
-      this.loaderImages(nextName, startPage);
+      this.loaderImages(nextName);
     }
   }
 
-  loaderImages = (name, page) => {
+  loaderImages = (name, page = 1) => {
     this.setState({ status: Status.PENDING });
 
     apiImages
