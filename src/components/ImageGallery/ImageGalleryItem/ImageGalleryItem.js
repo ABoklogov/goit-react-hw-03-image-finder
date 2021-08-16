@@ -1,42 +1,31 @@
-import { Component } from 'react';
 import s from './ImageGalleryItem.module.css';
 import PropTypes from 'prop-types';
-import Modal from '../../Modal';
 
-class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
+export default function ImageGalleryItem({
+  smallImage,
+  bigImage,
+  alt,
+  openModal,
+}) {
+  const onOpenModalClick = () => {
+    openModal(bigImage, alt);
   };
 
-  static propTypes = {
-    smallImage: PropTypes.string,
-    bigImage: PropTypes.string,
-    alt: PropTypes.string,
-  };
-
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
-  };
-
-  render() {
-    const { smallImage, alt, bigImage } = this.props;
-    const { showModal } = this.state;
-
-    return (
-      <li className={s.ImageGalleryItem}>
-        <img
-          onClick={this.toggleModal}
-          src={smallImage}
-          alt={alt}
-          className={s.ImageGalleryItemImage}
-        />
-
-        {showModal && (
-          <Modal bigImage={bigImage} alt={alt} onClose={this.toggleModal} />
-        )}
-      </li>
-    );
-  }
+  return (
+    <li className={s.ImageGalleryItem}>
+      <img
+        className={s.ImageGalleryItemImage}
+        onClick={onOpenModalClick}
+        src={smallImage}
+        alt={alt}
+      />
+    </li>
+  );
 }
 
-export default ImageGalleryItem;
+ImageGalleryItem.propTypes = {
+  smallImage: PropTypes.string.isRequired,
+  bigImage: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  openModal: PropTypes.func,
+};
