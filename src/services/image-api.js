@@ -14,13 +14,9 @@ async function fetchImage(name, page) {
   return images;
 }
 
-const api = {
-  fetchImage,
-};
-
 fetchImage.propTypes = {
   name: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
 };
 
-export default api;
+export { fetchImage, apiOptions };

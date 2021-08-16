@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import s from './App.module.css';
 import Searchbar from '../Searchbar';
-import apiImages from '../../services/image-api';
+import { fetchImage, apiOptions } from '../../services/image-api';
 import ImageGallery from '../ImageGallery';
 import ImageErrorView from '../ImageErrorView';
 import Button from '../Button';
@@ -49,8 +49,7 @@ class App extends Component {
   loaderImages = (name, page = 1) => {
     this.setState({ status: Status.PENDING });
 
-    apiImages
-      .fetchImage(name, page)
+    fetchImage(name, page)
       .then(comeImages => {
         if (comeImages.total !== 0) {
           this.setState(({ images, page }) => ({
@@ -111,7 +110,7 @@ class App extends Component {
         {status === 'resolved' && (
           <Fragment>
             <ImageGallery images={images} openModal={this.toggleModal} />
-            {images.length >= 12 && (
+            {images.length >= apiOptions.PER_PAGE && (
               <Button
                 loadMoreImages={() => this.loaderImages(imageName, page)}
               />
