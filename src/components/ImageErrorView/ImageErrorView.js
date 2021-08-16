@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function ImageErrorView({ message }) {
   return (
     <div role="alert" className={s.errorImage}>
-      <img src={errorImage} width="240" alt="errorImage" />
+      <img src={errorImage} width="240" height="240" alt="errorImage" />
       <p>{message}</p>
     </div>
   );

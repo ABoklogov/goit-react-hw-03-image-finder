@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import SearchForm from './SearchForm';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
-import PropTypes from 'prop-types';
+import SearchForm from './SearchForm';
 
 class Searchbar extends Component {
   state = {
@@ -19,22 +19,26 @@ class Searchbar extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { imageName } = this.state;
+    const { onSubmit } = this.props;
 
-    if (this.state.imageName.trim() === '') {
+    if (imageName.trim() === '') {
       toast.error('Please enter the name of the picture');
       return;
     }
 
-    this.props.onSubmit(this.state.imageName);
+    onSubmit(imageName);
     this.setState({ imageName: '' });
   };
 
   render() {
+    const { imageName } = this.state;
+
     return (
       <header className={s.Searchbar}>
         <SearchForm
           onSubmit={this.handleSubmit}
-          value={this.state.imageName}
+          value={imageName}
           onChange={this.handleNameChange}
         />
       </header>

@@ -1,5 +1,5 @@
-import s from './SearchForm.module.css';
 import PropTypes from 'prop-types';
+import s from './SearchForm.module.css';
 
 export default function SearchForm({ onSubmit, value, onChange }) {
   return (

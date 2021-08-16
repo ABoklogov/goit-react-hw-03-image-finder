@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import apiImages from '../../services/image-api';
-import s from './ImageInfo.module.css';
 import PropTypes from 'prop-types';
+import s from './ImageInfo.module.css';
+import apiImages from '../../services/image-api';
 import ImageErrorView from '../ImageErrorView';
 import ImageGallery from '../ImageGallery';
 import Button from '../Button';
@@ -37,13 +37,15 @@ class ImageInfo extends Component {
         status: Status.PENDING,
       });
 
-      const defaultPage = 1;
+      const startPage = 1;
 
-      this.loaderImages(nextName, defaultPage);
+      this.loaderImages(nextName, startPage);
     }
   }
 
   loaderImages = (name, page) => {
+    this.setState({ status: Status.PENDING });
+
     apiImages
       .fetchImage(name, page)
       .then(comeImages => {
