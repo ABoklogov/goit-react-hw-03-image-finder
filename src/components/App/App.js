@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Loader from 'react-loader-spinner';
 import s from './App.module.css';
 import Searchbar from '../Searchbar';
