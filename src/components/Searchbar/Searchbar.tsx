@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
 import SearchForm from './SearchForm';
 
-class Searchbar extends Component {
+interface Props {
+  onSubmit: (imageName: string) => void;
+};
+
+interface State {
+  imageName: string;
+};
+
+class Searchbar extends Component<Props, State> {
   state = {
     imageName: '',
   };
 
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
-
-  handleNameChange = e => {
+  handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ imageName: e.currentTarget.value.toLowerCase() });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { imageName } = this.state;
     const { onSubmit } = this.props;

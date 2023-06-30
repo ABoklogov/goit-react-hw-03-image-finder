@@ -1,8 +1,13 @@
 import s from './ImageGallery.module.css';
 import ImageGalleryItem from './ImageGalleryItem';
-import PropTypes from 'prop-types';
+import Images from '../../interfaces/Images.interfece';
 
-export default function ImageGallery({ images, openModal }) {
+interface Props {
+  images: Images[];
+  openModal: (urlImage: string, alt: string) => void;
+};
+
+export default function ImageGallery({ images, openModal }: Props) {
   return (
     <ul className={s.ImageGallery}>
       {images.map(el => (
@@ -17,8 +22,3 @@ export default function ImageGallery({ images, openModal }) {
     </ul>
   );
 }
-
-ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape),
-  openModal: PropTypes.func,
-};

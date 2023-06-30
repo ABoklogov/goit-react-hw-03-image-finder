@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
 import s from './SearchForm.module.css';
 
-export default function SearchForm({ onSubmit, value, onChange }) {
+interface Props {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export default function SearchForm({ onSubmit, value, onChange }: Props) {
   return (
     <form className={s.SearchForm} onSubmit={onSubmit}>
       <button type="submit" className={s.SearchFormButton}>
@@ -20,9 +25,3 @@ export default function SearchForm({ onSubmit, value, onChange }) {
     </form>
   );
 }
-
-SearchForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

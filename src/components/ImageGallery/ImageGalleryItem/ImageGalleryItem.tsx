@@ -1,12 +1,18 @@
 import s from './ImageGalleryItem.module.css';
-import PropTypes from 'prop-types';
+
+interface Props {
+  smallImage: string;
+  bigImage: string;
+  alt: string;
+  openModal: (urlImage: string, alt: string) => void;
+};
 
 export default function ImageGalleryItem({
   smallImage,
   bigImage,
   alt,
   openModal,
-}) {
+}: Props) {
   const onOpenModalClick = () => {
     openModal(bigImage, alt);
   };
@@ -22,10 +28,3 @@ export default function ImageGalleryItem({
     </li>
   );
 }
-
-ImageGalleryItem.propTypes = {
-  smallImage: PropTypes.string.isRequired,
-  bigImage: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  openModal: PropTypes.func,
-};
